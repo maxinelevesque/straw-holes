@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>On the Number of Holes in a Common Drinking Straw — A Multi-Theoretic Census</title>
-<!-- Canonical URL (replace with the real hosted URL) -->
+
+<!-- Canonical URL (replace YOUR-DOMAIN.example with your actual host) -->
 <link rel="canonical" href="https://maxine.science/straw-holes/">
 
-<!-- Description for search/share -->
+<!-- Description for search engines and link previews -->
 <meta name="description" content="A whimsical-but-rigorous preprint computing the number of holes in a drinking straw across homotopy groups, singular and de Rham cohomology, group cohomology, complex and real K-theory, oriented bordism, stable homotopy, and Alexander duality. Every invariant returns 1.">
 
 <!-- Open Graph (Bluesky, Facebook, LinkedIn, Discord, Slack, iMessage) -->
@@ -29,6 +30,7 @@
 <meta name="twitter:description" content="A multi-theoretic census. Every (co)homology theory we tried returns the same answer: 1.">
 <meta name="twitter:image" content="https://maxine.science/straw-holes/og-image.png">
 <meta name="twitter:image:alt" content="Preprint cover with the title and a straw illustration whose core circle is dashed in red.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -171,6 +173,19 @@
   p + p{text-indent:1.4em}
   em.term{font-style:italic}
   .sc{font-variant:small-caps;letter-spacing:.04em}
+
+  /* Lead-in / orientation paragraph at start of each subsection */
+  p.lead{
+    margin:6px 0 14px;
+    padding:0 0 0 14px;
+    border-left:2px solid var(--rule);
+    font-size:.92rem;
+    line-height:1.5;
+    color:#3a2f24;
+    font-style:italic;
+  }
+  p.lead em{font-style:normal;font-weight:600;color:var(--ink)}
+  p + p.lead{text-indent:0}
 
   /* Inline bibliographic citation: [Hat02, §1.7] */
   .cite{
@@ -327,7 +342,7 @@
 
 <div class="preprint-bar">
   <span class="id">arXiv:2605.31831 [math.AT]</span>
-  <span class="v">Preprint · v3 · 16 May 2026</span>
+  <span class="v">Preprint · v4 · 16 May 2026</span>
 </div>
 
 <h1 class="title">On the Number of Holes in a Common Drinking Straw</h1>
@@ -339,7 +354,7 @@
 
 <div class="abstract">
   <span class="lbl">Abstract</span>
-  We settle, with what we concede is gratuitous machinery, the recurring popular question of how many holes are possessed by a standard drinking straw. The straw is homotopy equivalent to the circle; we therefore compute its homotopy groups, singular and de Rham cohomology rings, group (co)homology, complex and real K-theory, oriented bordism, stable homotopy, and an Alexander-dual linking invariant. For each theory we exhibit a short proof and identify the resulting generator with the unique hole. Every invariant designed to count holes returns the same value, namely $1$. The two boundary circles occasionally mistaken for additional holes are demonstrated to be boundary, not topology.
+  We settle, with what we concede is gratuitous machinery, the recurring popular question of how many holes are possessed by a standard drinking straw. The straw is homotopy equivalent to the circle; we therefore compute its homotopy groups, singular and de Rham cohomology rings, group (co)homology, complex and real K-theory, oriented bordism, stable homotopy, and an Alexander-dual linking invariant. For each theory we recall its definition and meaning, exhibit a short proof, and identify the resulting generator with the unique hole. Every invariant designed to count holes returns the same value, namely $1$. The two boundary circles occasionally mistaken for additional holes are demonstrated to be boundary, not topology.
   <div class="keywords">
     <b>Keywords.</b> drinking straw · homotopy type · Bott periodicity · Alexander duality · beverage cylinder · Möbius distinction.
     <br><b>MSC 2020.</b> 55-02, 55N15, 55N20, 55Q10, 57R75.
@@ -349,7 +364,7 @@
 <section id="intro">
   <h2><span class="num">§ 1.</span> Introduction</h2>
   <p>It is a recurring scandal of online life that the question <em>how many holes does a drinking straw have?</em> excites passionate disagreement; cf. <span class="cite">[CV94]</span> for a sober metaphysical treatment of holes as such. The proposed answers are typically <em>one</em>, <em>two</em>, or, in moments of zeal, <em>zero</em>. We resolve the matter using essentially every tool a graduate algebraic topology course leaves lying around <span class="cite">[Hat02]</span>.</p>
-  <p>The strategy is elementary. A straw is homeomorphic to the cylinder $S^1\times[0,1]$, which deformation retracts onto its core circle $S^1$. Every homotopy-invariant feature of the straw therefore agrees with that of $S^1$. We compute these invariants in a representative selection of (co)homology theories. In each section we (i) state the result, (ii) cite a standard reference, (iii) give a short proof, and (iv) identify the generator with the unique hole.</p>
+  <p>The strategy is elementary. A straw is homeomorphic to the cylinder $S^1\times[0,1]$, which deformation retracts onto its core circle $S^1$. Every homotopy-invariant feature of the straw therefore agrees with that of $S^1$. We compute these invariants in a representative selection of (co)homology theories. In each section we (i) recall the definition of the theory and what it measures, (ii) state the result, (iii) cite a standard reference, (iv) give a short proof, and (v) identify the generator with the unique hole.</p>
 </section>
 
 <div class="figure">
@@ -381,6 +396,7 @@
   <!-- ============================================================ -->
   <section class="sub" id="pi">
     <h3><span class="num">§ 2.1.</span> Homotopy groups</h3>
+    <p class="lead">The homotopy groups $\pi_n(X,x_0)$ are defined as based-homotopy classes of maps $(S^n,*)\to(X,x_0)$, with group structure given by concatenation of loops (for $n=1$) or by stacking on cubical faces (for $n\geq 2$). They are the finest classical invariants we shall consider: $\pi_n$ records precisely which $n$-spheres can be mapped into $X$ up to deformation.</p>
     <p>The circle is the prototypical Eilenberg–MacLane space $K(\mathbb{Z},1)$; the standard reference is Hatcher <span class="cite">[Hat02, Thm 1.7 &amp; §4.1]</span>:
     $$\begin{aligned}
     \pi_1(X) &= \mathbb{Z}, \\
@@ -396,6 +412,7 @@
   <!-- ============================================================ -->
   <section class="sub" id="hom">
     <h3><span class="num">§ 2.2.</span> Singular homology</h3>
+    <p class="lead">Singular homology is built from <em>chains</em>: formal $\mathbb{Z}$-linear combinations of continuous maps $\Delta^n\to X$, quotiented by the relation $\partial^2=0$. The resulting groups $H_n(X;\mathbb{Z})$ measure $n$-cycles that fail to bound — informally, $n$-dimensional voids that $X$ is unable to fill in.</p>
     <p>With integer coefficients, see <span class="cite">[Hat02, Ex. 2.23]</span>:
     $$\begin{aligned}
     H_0(X;\mathbb{Z}) &= \mathbb{Z}, \\
@@ -414,6 +431,7 @@
   <!-- ============================================================ -->
   <section class="sub" id="cup">
     <h3><span class="num">§ 2.3.</span> Cohomology ring</h3>
+    <p class="lead">Cohomology is the dual construction to homology: <em>cochains</em> are $\mathbb{Z}$-linear functions on chains, and the coboundary is the formal adjoint of $\partial$. The <em>cup product</em> $\smile$ then makes $H^*(X;\mathbb{Z})$ into a graded-commutative ring, whose multiplicative structure records how lower-dimensional cohomology classes assemble into higher-dimensional ones.</p>
     <p>As a graded ring, after <span class="cite">[Hat02, Ex. 3.13]</span>,
     $$H^*(X;\mathbb{Z}) \;\cong\; \mathbb{Z}[\alpha]\big/(\alpha^2),$$
     the exterior algebra on a one-dimensional generator $\alpha$.</p>
@@ -425,6 +443,7 @@
   <!-- ============================================================ -->
   <section class="sub" id="dR">
     <h3><span class="num">§ 2.4.</span> de Rham cohomology</h3>
+    <p class="lead">For a smooth manifold $M$, de Rham cohomology is the quotient $H^k_{\mathrm{dR}}(M)=\{\text{closed }k\text{-forms}\}/\{\text{exact }k\text{-forms}\}$. It measures the obstruction to a closed differential form being globally exact, and by the de Rham theorem agrees with singular cohomology over $\mathbb{R}$.</p>
     <p>Working on the smooth open straw $S^1\times\mathbb{R}$, after <span class="cite">[BT82, §I.4]</span>,
     $$\begin{aligned}
     H^0_{\mathrm{dR}}(X) &= \mathbb{R}, \\
@@ -440,6 +459,7 @@
   <!-- ============================================================ -->
   <section class="sub" id="grp">
     <h3><span class="num">§ 2.5.</span> Group (co)homology</h3>
+    <p class="lead">The (co)homology of a discrete group $G$ may be defined either as the derived functors of the $G$-invariants functor on $G$-modules or, equivalently, as the singular (co)homology of the classifying space $BG=K(G,1)$. It records intrinsic algebraic data about $G$ — extensions, characteristic classes, central extensions — in topological form.</p>
     <p>The circle is the classifying space $B\mathbb{Z}=K(\mathbb{Z},1)$ <span class="cite">[Bro82, Ch. II]</span>, hence
     $$\begin{aligned}
     H_*(X;\mathbb{Z}) &= H_*(\mathbb{Z};\mathbb{Z}), \\
@@ -456,6 +476,7 @@
   <!-- ============================================================ -->
   <section class="sub" id="K">
     <h3><span class="num">§ 2.6.</span> Complex K-theory</h3>
+    <p class="lead">Complex K-theory $K^*(X)$ is built from the Grothendieck group of stable isomorphism classes of complex vector bundles on $X$, extended to a $\mathbb{Z}/2$-graded cohomology theory by Bott periodicity ($K^{n+2}\cong K^n$). It records the same broad type of information as ordinary cohomology, but with linear data over $X$ in place of cycles, and is closer to the differential geometry of the space.</p>
     <p>After <span class="cite">[Ati67, §1.4]</span> and <span class="cite">[Bot59]</span>,
     $$\begin{aligned}
     K^0(X) &= \mathbb{Z}, \\
@@ -472,7 +493,8 @@
   <!-- ============================================================ -->
   <section class="sub" id="KO">
     <h3><span class="num">§ 2.7.</span> Real K-theory; or, the Möbius distinction</h3>
-    <p>Real K-theory is more discerning; after <span class="cite">[Hus94, §16]</span> and <span class="cite">[Bot59]</span>,
+    <p class="lead">Real K-theory $KO^*(X)$ is the analogue of complex K-theory using real rather than complex vector bundles, with Bott periodicity of order $8$ rather than $2$. The richer periodicity makes $KO$ sensitive to orientation, spin structure, and other real-geometric features that are invisible to either ordinary cohomology or complex K-theory.</p>
+    <p>After <span class="cite">[Hus94, §16]</span> and <span class="cite">[Bot59]</span>,
     $$\widetilde{KO}^{\,0}(X) \;=\; \mathbb{Z}/2,$$
     generated by the Möbius line bundle.</p>
     <div class="proof">
@@ -484,6 +506,7 @@
   <!-- ============================================================ -->
   <section class="sub" id="bord">
     <h3><span class="num">§ 2.8.</span> Oriented bordism</h3>
+    <p class="lead">Oriented bordism $\Omega_n^{SO}(X)$ consists of equivalence classes of maps $f\colon M^n\to X$ from closed oriented $n$-manifolds, where $f_0\sim f_1$ iff they jointly extend over an oriented $(n{+}1)$-manifold-with-boundary mapping to $X$. It is a generalised homology theory whose cycles are honest manifolds rather than formal sums of simplices.</p>
     <p>The coefficients vanish, $\Omega_1^{SO}(\mathrm{pt})=0$ <span class="cite">[Sto68, Ch. VI]</span>, but the Atiyah–Hirzebruch spectral sequence yields
     $$\Omega_1^{SO}(X) \;=\; \mathbb{Z}.$$
     </p>
@@ -496,7 +519,8 @@
   <!-- ============================================================ -->
   <section class="sub" id="stable">
     <h3><span class="num">§ 2.9.</span> Stable homotopy</h3>
-    <p>For the universal generalised cohomology theory, after <span class="cite">[Ada74, §2]</span> and <span class="cite">[Rav86, Ch. 1]</span>,
+    <p class="lead">Stable homotopy is the homology theory associated to the sphere spectrum, defined by $\widetilde\pi_n^{\,s}(X)=\mathrm{colim}_k\, \pi_{n+k}(\Sigma^k X)$ — homotopy classes of maps, stabilised under suspension. It is the <em>universal</em> generalised homology theory: every other homology theory receives a unique natural transformation from it.</p>
+    <p>After <span class="cite">[Ada74, §2]</span> and <span class="cite">[Rav86, Ch. 1]</span>,
     $$\widetilde\pi_n^{\,s}(X) \;\cong\; \pi_{n-1}^{\,s},$$
     so the stable invariants of a straw are a degree shift of the stable stems:
     $$\begin{aligned}
@@ -513,6 +537,7 @@
   <!-- ============================================================ -->
   <section class="sub" id="alex">
     <h3><span class="num">§ 2.10.</span> Alexander duality, and why the hands agree</h3>
+    <p class="lead">Alexander duality is not itself a (co)homology theory but a <em>theorem</em> relating the homology of a compact, locally contractible subspace $K\subset S^n$ to the cohomology of its complement: $\widetilde H_i(S^n\!\setminus\! K)\cong\widetilde H^{n-i-1}(K)$. The pairing is implemented geometrically by the linking number, which counts how many times a cycle in the complement winds around a cycle in $K$.</p>
     <p>Embed the core $\gamma\colon S^1 \hookrightarrow S^3$. By Alexander duality <span class="cite">[Hat02, Thm 3.44]</span>, <span class="cite">[Mun84, §74]</span>,
     $$\widetilde H_1\big(S^3\setminus S^1\big) \;\cong\; \widetilde H^{\,1}(S^1) \;=\; \mathbb{Z},$$
     and the linking pairing
