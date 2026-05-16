@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>On the Number of Holes in a Common Drinking Straw — A Multi-Theoretic Census</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      tags: 'none'
+    },
+    svg: { fontCache: 'global' },
+    chtml: { displayAlign: 'center' }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+<style>
+  :root{
+    --bg:#faf6ec;
+    --paper:#fffdf6;
+    --ink:#1a1410;
+    --rule:#cdc4ad;
+    --muted:#6e6448;
+    --accent:#7a1f1f;
+    --accent-soft:#f1e3d6;
+    --accent-ink:#5a1717;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'EB Garamond',Garamond,'Adobe Garamond Pro',serif;
+    font-size:19px;
+    line-height:1.55;
+    font-feature-settings:"kern","liga","onum","calt";
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  /* paper background */
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(122,31,31,.04), transparent 60%),
+      radial-gradient(900px 500px at 100% 110%, rgba(0,0,0,.04), transparent 60%);
+    pointer-events:none;z-index:0;
+  }
+
+  .page{
+    position:relative;z-index:1;
+    max-width:740px;
+    margin:0 auto;
+    padding:72px 32px 120px;
+  }
+
+  /* Preprint header strip */
+  .preprint-bar{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:'JetBrains Mono',ui-monospace,monospace;
+    font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);
+    border-bottom:1px solid var(--rule);
+    padding-bottom:8px;margin-bottom:36px;
+  }
+  .preprint-bar .id{color:var(--accent-ink)}
+  .preprint-bar .v{font-style:italic;text-transform:none;letter-spacing:.04em}
+
+  /* Title block */
+  h1.title{
+    font-size:2.05rem;line-height:1.18;
+    font-weight:600;letter-spacing:-.005em;
+    text-align:center;
+    margin:0 0 10px;
+    font-feature-settings:"lnum","kern";
+  }
+  .subtitle{
+    text-align:center;font-style:italic;
+    font-size:1.12rem;color:var(--muted);
+    margin:0 0 30px;
+  }
+  .byline{text-align:center;margin:18px 0 4px;font-size:1.04rem}
+  .byline .name{font-variant:small-caps;letter-spacing:.04em}
+  .affiliation{
+    text-align:center;font-style:italic;font-size:.92rem;
+    color:var(--muted);margin:0 0 6px;line-height:1.4;
+  }
+  .date{
+    text-align:center;font-size:.92rem;color:var(--muted);
+    font-feature-settings:"lnum";margin:0 0 44px;
+  }
+
+  /* Abstract */
+  .abstract{
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    padding:20px 26px;margin:0 0 38px;
+    font-size:.97rem;line-height:1.62;
+  }
+  .abstract .lbl{
+    display:block;text-align:center;
+    font-variant:small-caps;letter-spacing:.1em;font-weight:600;
+    color:var(--accent-ink);margin-bottom:8px;font-size:.92rem;
+  }
+  .keywords{
+    margin-top:12px;padding-top:10px;
+    border-top:1px dotted var(--rule);
+    font-size:.84rem;color:var(--muted);line-height:1.5;
+  }
+  .keywords b{color:var(--ink);font-weight:600}
+
+  /* Sections */
+  section{margin-top:36px}
+  h2{
+    font-size:1.18rem;font-weight:600;
+    margin:0 0 10px;letter-spacing:-.002em;
+    display:flex;align-items:baseline;gap:14px;
+  }
+  h2 .num{
+    font-variant:small-caps;letter-spacing:.07em;
+    color:var(--accent);font-weight:600;font-size:.92rem;
+    font-feature-settings:"lnum";min-width:3.4em;
+  }
+
+  p{margin:0 0 12px}
+  p + p{text-indent:1.4em}
+  em.term{font-style:italic}
+  .sc{font-variant:small-caps;letter-spacing:.04em}
+
+  /* Theorem-like environments */
+  .env{
+    margin:16px 0;padding:12px 18px 12px 20px;
+    background:var(--accent-soft);
+    border-left:3px solid var(--accent);
+    font-size:.96rem;line-height:1.55;
+  }
+  .env.rem{background:transparent;border-left-color:#b5a988}
+  .env.rem .head{color:var(--muted)}
+  .env .head{
+    font-variant:small-caps;letter-spacing:.06em;
+    font-weight:700;color:var(--accent-ink);
+    margin-right:6px;
+  }
+  .env.thm{background:#f6ecdc;border-left-width:4px}
+  .boxed{
+    display:inline-block;border:1.5px solid var(--accent-ink);
+    padding:0 .35em;border-radius:2px;font-weight:600;
+  }
+
+  /* Footnotes */
+  sup.fnref{font-size:.62em;line-height:0;position:relative;top:-.6em}
+  sup.fnref a{color:var(--accent);text-decoration:none;font-weight:600}
+  sup.fnref a:hover{text-decoration:underline}
+
+  .endmatter{
+    margin-top:46px;padding-top:18px;
+    border-top:1px solid var(--rule);
+    font-size:.88rem;color:var(--ink);line-height:1.5;
+  }
+  .endmatter p{margin:0 0 8px}
+  .endmatter b{font-variant:small-caps;letter-spacing:.06em;
+    font-weight:700;color:var(--accent-ink);font-size:.84rem;
+    margin-right:6px;}
+
+  .footnotes{
+    margin-top:36px;padding-top:14px;
+    border-top:1px solid var(--rule);
+    font-size:.84rem;line-height:1.45;color:#2a221a;
+  }
+  .footnotes ol{padding-left:1.3em;margin:0}
+  .footnotes li{margin-bottom:6px}
+  .footnotes a.bk{color:var(--accent);text-decoration:none;margin-left:4px}
+
+  .refs{
+    margin-top:44px;padding-top:14px;
+    border-top:1px solid var(--rule);
+    font-size:.88rem;line-height:1.5;
+  }
+  .refs h2{margin-bottom:12px}
+  .refs ol{padding-left:1.4em;margin:0}
+  .refs li{margin-bottom:7px;padding-left:4px}
+  .refs em{font-style:italic}
+  .refs .url{font-family:'JetBrains Mono',monospace;font-size:.82em;color:var(--accent-ink);word-break:break-all}
+
+  /* Figure */
+  .figure{margin:28px auto;text-align:center}
+  .figure svg{max-width:340px;width:100%;height:auto;display:block;margin:0 auto}
+  .figure .caption{
+    font-size:.86rem;color:var(--muted);
+    margin-top:10px;font-style:italic;line-height:1.4;
+    max-width:440px;margin-left:auto;margin-right:auto;
+  }
+  .figure .caption b{font-style:normal;color:var(--ink);font-variant:small-caps;letter-spacing:.05em;font-weight:700}
+
+  /* Math display tweaks */
+  mjx-container[display="true"]{margin:.6em 0 .8em !important}
+
+  /* Mobile */
+  @media (max-width:560px){
+    .page{padding:48px 22px 90px}
+    h1.title{font-size:1.6rem}
+    .subtitle{font-size:1rem}
+    body{font-size:18px}
+    h2{flex-wrap:wrap;gap:8px}
+    h2 .num{min-width:auto}
+    .preprint-bar{font-size:.6rem;flex-wrap:wrap;gap:6px}
+  }
+
+  /* Print */
+  @media print{
+    body{background:white}
+    body::before{display:none}
+    .page{max-width:6.5in;padding:.6in;font-size:11pt}
+    .env{break-inside:avoid}
+    section{break-inside:avoid-page}
+  }
+</style>
+</head>
+<body>
+<main class="page">
+
+<div class="preprint-bar">
+  <span class="id">arXiv:2605.31831 [math.AT]</span>
+  <span class="v">Preprint · v1 · 16 May 2026</span>
+</div>
+
+<h1 class="title">On the Number of Holes in a Common Drinking Straw</h1>
+<div class="subtitle">A multi-theoretic census</div>
+
+<div class="byline">M.&nbsp;R.&nbsp;<span class="name">Annulus</span><sup class="fnref"><a href="#fn1" id="fnref1">1</a></sup></div>
+<div class="affiliation">Department of Beverage Topology<br>Institute for Applied Pedantry</div>
+<div class="date">16 May 2026</div>
+
+<div class="abstract">
+  <span class="lbl">Abstract</span>
+  We settle, with what we concede is gratuitous machinery, the recurring popular question of how many holes are possessed by a standard drinking straw. The straw is homotopy equivalent to the circle; we therefore compute its homotopy groups, singular and de Rham cohomology rings, group (co)homology, complex and real K-theory, oriented bordism, stable homotopy, and an Alexander-dual linking invariant. Every invariant designed to count holes returns the same value, namely $1$. The two boundary circles occasionally mistaken for additional holes are demonstrated to be boundary, not topology.
+  <div class="keywords">
+    <b>Keywords.</b> drinking straw · homotopy type · Bott periodicity · Alexander duality · beverage cylinder · Möbius distinction.
+    <br><b>MSC 2020.</b> 55-02, 55N15, 55N20, 55Q10, 57R75.
+  </div>
+</div>
+
+<section id="intro">
+  <h2><span class="num">§ 1.</span> Introduction</h2>
+  <p>It is a recurring scandal of online life that the question <em>how many holes does a drinking straw have?</em> excites passionate disagreement. The proposed answers are typically <em>one</em>, <em>two</em>, or, in moments of metaphysical zeal, <em>zero</em>. We resolve the matter using essentially every tool a graduate algebraic topology course leaves lying around.</p>
+  <p>The strategy is elementary. A straw is homeomorphic to the cylinder $S^1\times[0,1]$, which deformation retracts onto its core circle $S^1$. Every homotopy-invariant feature of the straw therefore agrees with that of $S^1$. We compute these invariants in a representative selection of (co)homology theories and confirm that they unanimously detect one hole.</p>
+</section>
+
+<div class="figure">
+  <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" aria-label="A cylinder representing a straw, with its core circle marked in red.">
+    <!-- top rim full ellipse -->
+    <ellipse cx="160" cy="36" rx="56" ry="13" fill="#fffdf6" stroke="#1a1410" stroke-width="1.3"/>
+    <!-- inner top rim (hint of wall thickness) -->
+    <ellipse cx="160" cy="36" rx="47" ry="10" fill="#faf2e2" stroke="#1a1410" stroke-width="0.9"/>
+    <!-- sides -->
+    <line x1="104" y1="36" x2="104" y2="170" stroke="#1a1410" stroke-width="1.3"/>
+    <line x1="216" y1="36" x2="216" y2="170" stroke="#1a1410" stroke-width="1.3"/>
+    <!-- bottom front rim -->
+    <path d="M 104 170 A 56 13 0 0 0 216 170" fill="none" stroke="#1a1410" stroke-width="1.3"/>
+    <!-- bottom back rim (hidden) -->
+    <path d="M 104 170 A 56 13 0 0 1 216 170" fill="none" stroke="#b8ad8e" stroke-width="1" stroke-dasharray="3 3"/>
+    <!-- core circle: full dashed ellipse in accent color -->
+    <ellipse cx="160" cy="103" rx="56" ry="13" fill="none" stroke="#7a1f1f" stroke-width="1.7" stroke-dasharray="5 3"/>
+    <!-- orientation arrowhead on core -->
+    <path d="M 216 103 L 212 100 L 212 106 Z" fill="#7a1f1f"/>
+    <!-- label leader -->
+    <line x1="220" y1="103" x2="248" y2="103" stroke="#7a1f1f" stroke-width="1"/>
+    <text x="252" y="100" font-family="EB Garamond, Garamond, serif" font-style="italic" font-size="15" fill="#7a1f1f">γ</text>
+    <text x="252" y="116" font-family="EB Garamond, Garamond, serif" font-size="11" fill="#6e6448">core circle</text>
+  </svg>
+  <div class="caption"><b>Figure 1.</b> A straw $X \simeq S^1\times[0,1]$ with its core circle $\gamma$ (dashed) representing the generator of $H_1(X;\mathbb{Z})$.</div>
+</div>
+
+<section id="setup">
+  <h2><span class="num">§ 2.</span> The space and its homotopy type</h2>
+
+  <div class="env"><span class="head">Definition 2.1 (Straw).</span> A <em>straw</em> is a topological space $X$ homeomorphic to $S^1\times[0,1]$. The boundary circles $S^1\times\{0\}$ and $S^1\times\{1\}$ are called the <em>mouth</em> and the <em>foot</em>; the open subset $S^1\times(0,1)$ is the <em>bore</em>.</div>
+
+  <p>The projection $S^1\times[0,1]\to S^1$ is a deformation retraction, so $X\simeq S^1$. This single fact will do almost all of the work below.</p>
+</section>
+
+<section id="pi">
+  <h2><span class="num">§ 3.</span> Homotopy groups</h2>
+  <p>The circle is the prototypical Eilenberg–MacLane space $K(\mathbb{Z},1)$:
+  $$\pi_1(X)\;=\;\mathbb{Z},\qquad \pi_n(X)\;=\;0\quad(n\ne 1).$$
+  The generator of $\pi_1$ is the loop that winds once through the bore. There is a $\mathbb{Z}$-worth of homotopy classes of loops, parametrised by winding number, and only one hole through which to wind them.</p>
+</section>
+
+<section id="hom">
+  <h2><span class="num">§ 4.</span> Singular homology</h2>
+  <p>With integer coefficients,
+  $$H_0(X;\mathbb{Z})=\mathbb{Z},\qquad H_1(X;\mathbb{Z})=\mathbb{Z},\qquad H_n(X;\mathbb{Z})=0\;(n\geq 2).$$
+  The Betti numbers are $(b_0,b_1)=(1,1)$, the Euler characteristic vanishes, and the Poincaré polynomial is $P_X(t)=1+t$. The lone $\mathbb{Z}$ in degree one <em>is</em> the hole.</p>
+
+  <div class="env rem"><span class="head">Remark 4.2.</span> The mouth and foot cobound the cylinder and are therefore homologous in $X$. They contribute jointly to the single generator of $H_1$, not separately. This is the principal source of the popular two-hole heresy.</div>
+</section>
+
+<section id="cup">
+  <h2><span class="num">§ 5.</span> Cohomology ring</h2>
+  <p>As a graded ring,
+  $$H^*(X;\mathbb{Z})\;\cong\;\mathbb{Z}[\alpha]\big/(\alpha^2),\qquad |\alpha|=1,$$
+  the exterior algebra on a single one-dimensional generator. There is nothing for $\alpha$ to cup into in higher degree, and the ring structure offers no information beyond the additive one.</p>
+</section>
+
+<section id="dR">
+  <h2><span class="num">§ 6.</span> de Rham cohomology</h2>
+  <p>Working on the smooth open straw $S^1\times\mathbb{R}$,
+  $$H^0_{\mathrm{dR}}(X)=\mathbb{R},\qquad H^1_{\mathrm{dR}}(X)=\mathbb{R}\cdot[d\theta],$$
+  where $d\theta$ is the angular one-form: closed, globally non-exact, with $\oint_\gamma d\theta=2\pi$. The form $d\theta$ is, quite literally, the differential form that knows about the hole. Stokes will object if one tries to write it as $df$.</p>
+</section>
+
+<section id="grp">
+  <h2><span class="num">§ 7.</span> Group (co)homology</h2>
+  <p>The circle is the classifying space $B\mathbb{Z}$, hence
+  $$H_*(X;\mathbb{Z})\;=\;H_*(\mathbb{Z};\mathbb{Z}),\qquad H^*(X;\mathbb{Z})\;=\;H^*(\mathbb{Z};\mathbb{Z}).$$
+  In some sense the hole-count of a straw is an invariant of the integers as a group — a tautology of pleasing depth.</p>
+</section>
+
+<section id="K">
+  <h2><span class="num">§ 8.</span> Complex K-theory</h2>
+  <p>Every complex vector bundle on $S^1$ is trivialisable, since $\pi_0\,U(n)=0$ for all $n$. Hence
+  $$K^0(X)\;=\;\mathbb{Z},\qquad \widetilde K^{\,0}(X)\;=\;0,\qquad K^1(X)\;=\;\mathbb{Z},$$
+  with the odd part generated by the clutching function $z\mapsto z$. Complex K-theory sees the hole in degree one and nothing else.</p>
+</section>
+
+<section id="KO">
+  <h2><span class="num">§ 9.</span> Real K-theory; or, the Möbius distinction</h2>
+  <p>Real K-theory is more discerning. Bott periodicity gives
+  $$\widetilde{KO}^{\,0}(X)\;=\;\mathbb{Z}/2,$$
+  generated by the Möbius line bundle. Ordinary homology and complex K-theory cannot distinguish a straw from a Möbius strip — they share homotopy type — but $KO$-theory can. The straw represents the trivial class; the Möbius strip, the nontrivial one. Real K-theory therefore certifies that the cylinder under consideration is, in fact, a straw and not a twisted impostor.<sup class="fnref"><a href="#fn2" id="fnref2">2</a></sup></p>
+</section>
+
+<section id="bord">
+  <h2><span class="num">§ 10.</span> Oriented bordism</h2>
+  <p>The coefficients vanish, $\Omega_1^{SO}(\mathrm{pt})=0$, but the Atiyah–Hirzebruch spectral sequence yields
+  $$\Omega_1^{SO}(X)\;=\;\mathbb{Z},$$
+  generated by the inclusion of the core circle. The core represents a nontrivial $1$-dimensional oriented bordism class over $X$.</p>
+</section>
+
+<section id="stable">
+  <h2><span class="num">§ 11.</span> Stable homotopy</h2>
+  <p>For the universal generalised cohomology theory we have
+  $$\widetilde\pi_n^{\,s}(X)\;\cong\;\pi_{n-1}^{\,s},$$
+  so the stable invariants of a straw are a degree shift of the stable stems:
+  $$\mathbb{Z},\;\mathbb{Z}/2,\;\mathbb{Z}/2,\;\mathbb{Z}/24,\;0,\;0,\;\mathbb{Z}/2,\;\mathbb{Z}/240,\;\ldots$$
+  Most of these classes have nothing whatsoever to do with the hole; they are facts about the geometry of exotic spheres which, by an accident of stable algebra, also pertain to the straw.</p>
+</section>
+
+<section id="alex">
+  <h2><span class="num">§ 12.</span> Alexander duality, and why the hands agree</h2>
+  <p>Embed the core $S^1\hookrightarrow S^3$. Alexander duality gives
+  $$\widetilde H_1\!\big(S^3\setminus S^1\big)\;\cong\;\widetilde H^{\,1}(S^1)\;=\;\mathbb{Z},$$
+  and the linking pairing
+  $$H_1(X)\;\otimes\;H_1(S^3\!\setminus\!X)\;\longrightarrow\;\mathbb{Z}$$
+  is the identity. Translation: there is exactly one independent way to thread a closed loop through the straw, and its threading is detected by linking number. This is the invariant one computes physically by passing a piece of string through the bore.</p>
+</section>
+
+<section id="conc">
+  <h2><span class="num">§ 13.</span> Conclusion</h2>
+
+  <div class="env thm"><span class="head">Theorem 13.1 (Main Theorem).</span> Every (co)homological invariant designed to count holes returns the same value when evaluated on a drinking straw, namely <span class="boxed">$\;1\;$</span>.</div>
+
+  <p>The two-hole interpretation conflates <em>boundary</em> with <em>topology</em>: the straw has two boundary circles, but they cobound the cylinder and represent a single class in $H_1$. The zero-hole interpretation conflates contractibility with embeddedness in $\mathbb{R}^3$, an error we do not dignify further. We rest.</p>
+</section>
+
+<div class="endmatter">
+  <p><b>Funding</b> Unfunded. The corresponding author paid for the straw out of pocket.</p>
+  <p><b>Data availability</b> The straw used in this study is available from the corresponding author upon reasonable request and a self-addressed envelope.</p>
+  <p><b>Competing interests</b> The author drinks primarily through straws.</p>
+  <p><b>Acknowledgements</b> The original question was posed in a moot on the Bluesky social network; the author thanks the moot for the prompt and acknowledges that no part of this work is, strictly speaking, necessary.</p>
+</div>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn1">Correspondence to <span style="font-family:'JetBrains Mono',monospace;font-size:.92em">annulus@beverage-topology.example</span>. The author is grateful to the editor for accepting the only paper they have ever written that begins with a straw. <a class="bk" href="#fnref1">↩</a></li>
+    <li id="fn2">A wholly orientable cylinder, surveyed end-to-end and certified accordingly. <a class="bk" href="#fnref2">↩</a></li>
+  </ol>
+</div>
+
+<div class="refs">
+  <h2><span class="num">§</span> References</h2>
+  <ol>
+    <li>M. F. Atiyah. <em>K-Theory</em>. W. A. Benjamin, New York, 1967.</li>
+    <li>R. Bott. The stable homotopy of the classical groups. <em>Ann. of Math.</em> (2) <b>70</b> (1959), 313–337.</li>
+    <li>R. Casati and A. C. Varzi. <em>Holes and Other Superficialities</em>. MIT Press, Cambridge, MA, 1994.</li>
+    <li>A. Hatcher. <em>Algebraic Topology</em>. Cambridge University Press, 2002.</li>
+    <li>D. Husemoller. <em>Fibre Bundles</em>. Graduate Texts in Mathematics <b>20</b>, Springer, 3rd ed., 1994.</li>
+    <li>J. W. Milnor and J. D. Stasheff. <em>Characteristic Classes</em>. Annals of Mathematics Studies <b>76</b>, Princeton University Press, 1974.</li>
+    <li>D. C. Ravenel. <em>Complex Cobordism and the Stable Homotopy Groups of Spheres</em>. Pure and Applied Mathematics <b>121</b>, Academic Press, 1986.</li>
+    <li>T. Kellogg <em>et al.</em> (The Moot). How many holes does a straw have? Bluesky Social, 2026. <span class="url">bsky.app/profile/timkellogg.me/post/3mlwoaj4hes2z</span></li>
+  </ol>
+</div>
+
+</main>
+</body>
+</html>
